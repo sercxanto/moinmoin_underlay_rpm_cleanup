@@ -1,0 +1,33 @@
+moinmoin_underlay_rpm_cleanup
+
+Cleans entries in MoinMoin's underlay dir not found in rpm listing
+
+MoinMoin stores its SystemPages or HelpPages in a so called underlay directory
+(see data_underlay_dir in wikiconfig.py). The basic idea is to be able to
+seperate the content of the wiki from its auxilliary pages. And you can also
+share the (readonly) underlay between different wiki instances on one server.
+
+Those pages are language dependend. In the standard source / RPM of versions <
+1.9 only english is included. So if you want to provide localized system pages
+to your users you have to call the SystemPagesSetup wiki page to install the
+language pack like described in the MoinMoin wiki.
+
+As the language packs are also installed in the underlay directory it could
+happen that after some time the whole directory is messed up with a mixture of
+files that came from rpm and language packs that were installed manually. To
+make it even worser it is not guaranteed that old versions of language packs
+are cleanly removed when installing a new one.
+
+Starting with 1.9 MoinMoin does not even include the english version, so you
+definitely have to visit SystemPagesSetup after installation. But at least
+there will be no confusion between rpm / no rpm based files in future.
+
+Anyway if you stay with version 1.8 it is wise to clean up the underlay data
+dir after an update and re-install any language you want to have. For this
+purpose I wrote this script.
+
+It cleans up files in /usr/share/moin/underlay which are not found in file
+listing of the moin rpm package.
+
+Just call moinmoin_underlay_rpm_cleanup.py to see which files would be deleted.
+To actually delete files append the -d option to it.
